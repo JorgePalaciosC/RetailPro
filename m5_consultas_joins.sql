@@ -31,6 +31,31 @@ WHERE ventas.id_cliente IS NULL;
 --Agregue este producto por que no tenia productos sin venta
 INSERT INTO productos VALUES ('Teclado normal',2,100.00,20,1);
 
+-- Consulta 3 cambiada en base a la Sugerencia de la IA
+-- Agregar producto de prueba solamente si no existe
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM productos
+    WHERE nombre_producto = 'Teclado normal'
+)
+BEGIN
+    INSERT INTO productos (
+        nombre_producto,
+        id_categoria,
+        precio,
+        stock,
+        activo
+    )
+    VALUES (
+        'Teclado normal',
+        2,
+        100.00,
+        20,
+        1
+    );
+END;
+
 SELECT productos.nombre_producto
 FROM productos
 LEFT JOIN ventas

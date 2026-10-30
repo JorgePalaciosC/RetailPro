@@ -7,6 +7,28 @@ DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS categorias;
 
+-- Consulta de sugeredia por la IA
+-- Crear la base de datos solamente si no existe
+
+IF DB_ID('Ventas_Tech_DB') IS NULL
+BEGIN
+    CREATE DATABASE Ventas_Tech_DB;
+END;
+GO
+
+USE Ventas_Tech_DB;
+GO
+
+-- IMPORTANTE:
+-- El siguiente bloque elimina las tablas y sus datos.
+-- Ejecutarlo solamente cuando se quiera reiniciar
+-- completamente la base de datos.
+
+-- DROP TABLE IF EXISTS ventas;
+-- DROP TABLE IF EXISTS productos;
+-- DROP TABLE IF EXISTS clientes;
+-- DROP TABLE IF EXISTS categorias;
+
 
 CREATE TABLE categorias(
 	id_categoria INT NOT NULL IDENTITY(1,1) PRIMARY KEY,

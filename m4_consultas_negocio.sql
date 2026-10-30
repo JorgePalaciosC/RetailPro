@@ -42,4 +42,31 @@ FROM ventas
 GROUP BY id_producto,fecha_venta
 ORDER BY Promedio_por_ticket DESC;
 
--- No puedo realizar el bloque de cierre por que como lo mencione esta última consulta no pude resolverla
+
+-- Reemplazo de la consulta 4 por sugerencia de la IA
+-- Consulta 4 — Meses por encima/por debajo del promedio
+
+WITH Facturacion_Mensual AS (
+    SELECT
+        YEAR(fecha_venta) AS Anio,
+        MONTH(fecha_venta) AS Mes,
+        SUM(cantidad * precio_unitario) AS Total_facturado
+    FROM ventas
+    GROUP BY
+        YEAR(fecha_venta),
+        MONTH(fecha_venta)
+)
+SELECT
+    Anio,
+    Mes,
+    Total_facturado,
+    AVG(Total_facturado) OVER() AS Promedio_mensual,
+    CASE
+        WHEN Total_facturado > AVG(Total_facturado) OVER()
+            THEN 'Por encima del promedio'
+        WHEN Total_facturado < AVG(Total_facturado) OVER()
+            THEN 'Por debajo del promedio'
+        ELSE 'Igual al promedio'
+    END AS Comparacion
+FROM Facturacion_Mensual
+ORDER BY Anio, Mes;
